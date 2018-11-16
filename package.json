@@ -1,0 +1,16 @@
+{
+  "name": "SENG474",
+  "description": "SENG474 data collection and preprocessing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "csv-stringify": "^4.3.1",
+    "express": "^4.13.4",
+    "heroku": "^7.5.11",
+    "pg-promise": "^8.4.5"
+  },
+  "license": "MIT"
+}
