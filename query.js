@@ -1,3 +1,3 @@
 module.exports = `
-    select RHI825214, RHI225214, candidate from county_facts natural join primary_results where candidate = 'Donald Trump' or candidate = 'Hillary Clinton';
+    select VET605213, PVY020213, candidate  from primary_results natural join county_facts where candidate = 'Donald Trump' or candidate = 'Hillary Clinton';
 `
