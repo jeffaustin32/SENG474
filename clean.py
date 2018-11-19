@@ -1,20 +1,46 @@
 #!/usr/bin/env python3
 import pandas as pd
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
-import sklearn as sk
+from sklearn import svm
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import LinearRegression
 
 def main():
-    headers = getheaders()
+    filename = "data3.csv"
+    headers = getheaders(filename)
 
-    filename1 = "data.csv"
-    data = getdata(filename1, headers)
+    data = getdata(filename, headers)
 
-    #print(headers)
+    X,y = prepare(data, 3)
 
-    X,y = prepare(data, 2)
+    #print(X)
 
-    visualize(X,y,headers[2],headers[3])
+    visualize_3d(X,y,headers[2],headers[3],headers[4])
+    #Ptron(X, y)
+    #svmclass(X,y)
+    #Lregress(X, y)
+
+def Lregress(X, y):
+    reg = LinearRegression().fit(X,y.ravel())
+    print(reg.score(X,y))
+
+def Ptron(X, y):
+    clf = Perceptron(tol=1e-3, random_state=0)
+    clf.fit(X,y.ravel())
+    print(clf.score(X,y))
+
+def svmclass(X,y):
+    clf = svm.SVC(gamma = 0.001, C=100)
+    clf.fit(X[:-1],y[:-1].ravel())
+    result = clf.predict(X)
+
+    match = 0
+    for num in range (len(result)):
+        if(result[num] == y[num]):
+             match = match + 1
+    print("Percent matching: " + str(match/len(result)))
 
 def getdata(filename, headers):
     data = pd.read_csv(filename, header=None, names = headers)
@@ -43,7 +69,8 @@ def prepare(data, numattr):
 
     return X,y
 
-def visualize(X, y, col1, col2):
+#Create 2D visualization of data
+def visualize_2d(X, y, col1, col2):
     positive_indexes = np.where(y == 1)[0]  #Clinton
     negative_indexes = np.where(y == -1)[0] #Trump
 
@@ -61,9 +88,31 @@ def visualize(X, y, col1, col2):
 
     plt.show()
 
+#Create 3D visualization of data
+def visualize_3d(X, y, col1, col2, col3):
+    positive_indexes = np.where(y == 1)[0]  #Clinton
+    negative_indexes = np.where(y == -1)[0] #Trump
+
+    positive = X[positive_indexes]  # positive rows
+    negative = X[negative_indexes]  # negative rows
+
+    #print(positive[:,3:])
+    #print(negative)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(positive[:,1:2], positive[:,2:3], positive[:,3:], s=50, c='b', marker='o', label='Clinton')
+    ax.scatter(negative[:,1:2], negative[:,2:3], negative[:,3:], s=50, c='r', marker='x', label='Trump')
+    ax.legend()
+    ax.set_xlabel('%'+col1)
+    ax.set_ylabel('%'+col2)
+    ax.set_zlabel('%'+col3)
+
+    plt.show()
+
 #Strip the first line from the input .csv file
-def getheaders():
-    with open("data.csv") as infile:
+def getheaders(filename):
+    with open(filename) as infile:
         first_line = infile.readline()
 
     result = [x.strip() for x in first_line.split(',')]
