@@ -7,11 +7,8 @@ import sklearn as sk
 def main():
     headers = getheaders()
 
-    data = pd.read_csv("data1.csv", header=None, names = headers)
-    data.head()
-    data = data.drop(data.index[0])     #Drop header text
-    data = data.astype('float64')       #Convert to float
-    data.insert(0, "winner", 0) #Insert column for comparison
+    filename1 = "data.csv"
+    data = getdata(filename1, headers)
 
     #print(headers)
 
@@ -19,6 +16,13 @@ def main():
 
     visualize(X,y,headers[2],headers[3])
 
+def getdata(filename, headers):
+    data = pd.read_csv(filename, header=None, names = headers)
+    data.head()
+    data = data.drop(data.index[0])     #Drop header text
+    data = data.astype('float64')       #Convert to float
+    data.insert(0, "winner", 0) #Insert column for comparison
+    return data
 
 #numattr is the number of columns for your classification
 def prepare(data, numattr):
@@ -59,7 +63,7 @@ def visualize(X, y, col1, col2):
 
 #Strip the first line from the input .csv file
 def getheaders():
-    with open("data1.csv") as infile:
+    with open("data.csv") as infile:
         first_line = infile.readline()
 
     result = [x.strip() for x in first_line.split(',')]
