@@ -104,9 +104,9 @@ def visualize_3d(X, y, col1, col2, col3):
     ax.scatter(positive[:,1:2], positive[:,2:3], positive[:,3:], s=50, c='b', marker='o', label='Clinton')
     ax.scatter(negative[:,1:2], negative[:,2:3], negative[:,3:], s=50, c='r', marker='x', label='Trump')
     ax.legend()
-    ax.set_xlabel('%'+col1)
-    ax.set_ylabel('%'+col2)
-    ax.set_zlabel('%'+col3)
+    ax.set_xlabel(col1)
+    ax.set_ylabel(col2)
+    ax.set_zlabel(col3)
 
     plt.show()
 
