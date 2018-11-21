@@ -9,5 +9,5 @@ module.exports = `
     FROM votes
     LEFT JOIN unemployment_view ON votes.fips = unemployment_view.fips
     LEFT JOIN county_facts ON votes.fips = county_facts.fips
-    ORDER BY fips ASC
+    ORDER BY fips ASC;
 `
